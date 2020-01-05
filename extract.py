@@ -19,13 +19,15 @@ def main():
 	outtweets = []
 	finput = codecs.open(INPUT_FILE, 'r', 'utf-8')
 
-	for line in finput:
+	for i1, line in enumerate(finput):
 		i = i + 1
 		if tmpline != "":
 			line = tmpline + line
+		else:
+			line = line[1:]
 
 		# Read a line of input file
-		item_list = line[:-1].replace('\"', '').replace('\n', '\t').split(',')
+		item_list = line.replace("\"\n", "\t").split("\",\"")
 
 		if len(item_list) < 10:
 			tmpline = line
@@ -40,7 +42,7 @@ def main():
 		timestr = tdtime.strftime("%Y-%m-%d %H:%M:%S")
 
 #		foutput.write(timestr + ":," + item_list[5] + '\n')
-		outtweets.append("=====" + timestr + "=====\r\n" + item_list[5])
+		outtweets.append("=====" + timestr + "=====\r\n" + item_list[5].replace("\"\"", "\"").replace("\'\'", "\'"))
 
 	outtweets.reverse()
 	foutput = codecs.open(OUTPUT_FILE, 'w', 'utf-8')
