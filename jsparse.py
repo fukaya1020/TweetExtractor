@@ -78,15 +78,19 @@ def main():
 	json_count = len(json_dict)
 
 	for i1 in range(json_count):
-		dt_val = timeutils.jsstr_to_datetime(str(json_dict[i1]["created_at"]))
-		tweet_s = str(json_dict[i1]["full_text"])
-		if tweet_s is not None:
-			tweet_s = tweet_s.replace("\"\"", "\"").replace("\'\'", "\'").replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
+		try:
+			dt_val = timeutils.jsstr_to_datetime(str(json_dict[i1]["tweet"]["created_at"]))
+			tweet_s = str(json_dict[i1]["tweet"]["full_text"])
+			if tweet_s is not None:
+				tweet_s = tweet_s.replace("\"\"", "\"").replace("\'\'", "\'").replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
 
-		if dt_val >= begindate and dt_val < enddate:
-			tinfo = tweetinfo(dt_val, tweet_s)
-			tinfo.timestr = "=====" + dt_val.strftime("%Y-%m-%d %H:%M:%S") + "====="
-			tweet_list.append(tinfo)
+			if dt_val >= begindate and dt_val < enddate:
+				tinfo = tweetinfo(dt_val, tweet_s)
+				tinfo.timestr = "=====" + dt_val.strftime("%Y-%m-%d %H:%M:%S") + "====="
+				tweet_list.append(tinfo)
+		except:
+			print(traceback.format_exc())
+			break
 
 	sorted_tweets = sorted(tweet_list)
 
