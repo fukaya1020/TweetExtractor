@@ -63,7 +63,7 @@ def main():
 		sys.exit(1)
 
 	jsonstr = ""
-	with open(INPUT_FILE) as f:
+	with open(INPUT_FILE, 'r', encoding='utf-8') as f:
 		s = f.read()
 		jsonstr = jsonstr + str(s)
 
